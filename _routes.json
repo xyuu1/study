@@ -1,0 +1,17 @@
+{
+  "routes": [
+    {
+      "path": "/assets/*",
+      "headers": {
+        "Cache-Control": "public, max-age=31536000, immutable"
+      }
+    },
+    {
+      "path": "/*",
+      "headers": {
+        "Cache-Control": "public, max-age=0, must-revalidate"
+      }
+    }
+  ],
+  "redirects": []
+}

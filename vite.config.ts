@@ -5,6 +5,7 @@ import { traeBadgePlugin } from 'vite-plugin-trae-solo-badge';
 
 // https://vite.dev/config/
 export default defineConfig({
+  base: '/', // Cloudflare Pages通常部署在根路径
   build: {
     sourcemap: 'hidden',
   },
