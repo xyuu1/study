@@ -86,26 +86,35 @@ const Homework: React.FC = () =&gt; {
                   &lt;/h3&gt;
                   &lt;div className="space-y-3"&gt;
                     {question.options?.map((option, index) =&gt; (
-                      &lt;label
+                      &lt;div
                         key={index}
+                        role="radio"
+                        aria-checked={courseAnswers.multipleChoice[question.id] === option}
+                        tabIndex={0}
+                        onClick={() =&gt; setMultipleChoiceAnswer(course.id, question.id, option)}
+                        onKeyDown={(e) =&gt; {
+                          if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            setMultipleChoiceAnswer(course.id, question.id, option);
+                          }
+                        }}
                         className={`flex items-center gap-3 p-3 rounded-lg border cursor-pointer transition-all ${
                           courseAnswers.multipleChoice[question.id] === option
                             ? 'border-cyan-500 bg-cyan-500/10'
                             : 'border-slate-700 hover:border-slate-500'
                         }`}
                       &gt;
-                        &lt;input
-                          type="radio"
-                          name={`mc-${question.id}`}
-                          value={option}
-                          checked={courseAnswers.multipleChoice[question.id] === option}
-                          onChange={() =&gt; {
-                            setMultipleChoiceAnswer(course.id, question.id, option);
-                          }}
-                          className="w-4 h-4 text-cyan-500"
-                        /&gt;
+                        &lt;div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${
+                          courseAnswers.multipleChoice[question.id] === option
+                            ? 'border-cyan-500 bg-cyan-500'
+                            : 'border-slate-600'
+                        }`}&gt;
+                          {courseAnswers.multipleChoice[question.id] === option && (
+                            &lt;div className="w-2 h-2 bg-white rounded-full" /&gt;
+                          )}
+                        &lt;/div&gt;
                         &lt;span className="text-gray-300"&gt;{option}&lt;/span&gt;
-                      &lt;/label&gt;
+                      &lt;/div&gt;
                     ))}
                   &lt;/div&gt;
                 &lt;/div&gt;
@@ -129,44 +138,62 @@ const Homework: React.FC = () =&gt; {
                     {question.id}. {question.question}
                   &lt;/h3&gt;
                   &lt;div className="flex gap-4"&gt;
-                    &lt;label
+                    &lt;div
+                      role="radio"
+                      aria-checked={courseAnswers.trueFalse[question.id] === true}
+                      tabIndex={0}
+                      onClick={() =&gt; setTrueFalseAnswer(course.id, question.id, true)}
+                      onKeyDown={(e) =&gt; {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          e.preventDefault();
+                          setTrueFalseAnswer(course.id, question.id, true);
+                        }
+                      }}
                       className={`flex items-center gap-2 px-6 py-3 rounded-lg border cursor-pointer transition-all ${
                         courseAnswers.trueFalse[question.id] === true
                           ? 'border-green-500 bg-green-500/10'
                           : 'border-slate-700 hover:border-slate-500'
                       }`}
                     &gt;
-                      &lt;input
-                        type="radio"
-                        name={`tf-${question.id}`}
-                        value="true"
-                        checked={courseAnswers.trueFalse[question.id] === true}
-                        onChange={() =&gt; {
-                          setTrueFalseAnswer(course.id, question.id, true);
-                        }}
-                        className="w-4 h-4 text-green-500"
-                      /&gt;
+                      &lt;div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${
+                        courseAnswers.trueFalse[question.id] === true
+                          ? 'border-green-500 bg-green-500'
+                          : 'border-slate-600'
+                      }`}&gt;
+                        {courseAnswers.trueFalse[question.id] === true && (
+                          &lt;div className="w-2 h-2 bg-white rounded-full" /&gt;
+                        )}
+                      &lt;/div&gt;
                       &lt;span className="text-green-400 font-medium"&gt;正确&lt;/span&gt;
-                    &lt;/label&gt;
-                    &lt;label
+                    &lt;/div&gt;
+                    &lt;div
+                      role="radio"
+                      aria-checked={courseAnswers.trueFalse[question.id] === false}
+                      tabIndex={0}
+                      onClick={() =&gt; setTrueFalseAnswer(course.id, question.id, false)}
+                      onKeyDown={(e) =&gt; {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          e.preventDefault();
+                          setTrueFalseAnswer(course.id, question.id, false);
+                        }
+                      }}
                       className={`flex items-center gap-2 px-6 py-3 rounded-lg border cursor-pointer transition-all ${
                         courseAnswers.trueFalse[question.id] === false
                           ? 'border-red-500 bg-red-500/10'
                           : 'border-slate-700 hover:border-slate-500'
                       }`}
                     &gt;
-                      &lt;input
-                        type="radio"
-                        name={`tf-${question.id}`}
-                        value="false"
-                        checked={courseAnswers.trueFalse[question.id] === false}
-                        onChange={() =&gt; {
-                          setTrueFalseAnswer(course.id, question.id, false);
-                        }}
-                        className="w-4 h-4 text-red-500"
-                      /&gt;
+                      &lt;div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center ${
+                        courseAnswers.trueFalse[question.id] === false
+                          ? 'border-red-500 bg-red-500'
+                          : 'border-slate-600'
+                      }`}&gt;
+                        {courseAnswers.trueFalse[question.id] === false && (
+                          &lt;div className="w-2 h-2 bg-white rounded-full" /&gt;
+                        )}
+                      &lt;/div&gt;
                       &lt;span className="text-red-400 font-medium"&gt;错误&lt;/span&gt;
-                    &lt;/label&gt;
+                    &lt;/div&gt;
                   &lt;/div&gt;
                 &lt;/div&gt;
               ))}
