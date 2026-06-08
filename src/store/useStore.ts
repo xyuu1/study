@@ -17,48 +17,74 @@ interface AppState {
   resetCourseAnswers: (courseId: string) => void;
 }
 
-export const useStore = create<AppState>((set) => ({
+// 辅助函数：确保课程对象存在
+const ensureCourseExists = (state: AppState, courseId: string) => {
+  return {
+    ...state.userAnswers,
+    [courseId]: {
+      multipleChoice: {},
+      trueFalse: {},
+      coding: '',
+      ...state.userAnswers[courseId],
+    },
+  };
+};
+
+export const useStore = create&lt;AppState&gt;((set) =&gt; ({
   currentCourseId: null,
-  setCurrentCourseId: (id) => set({ currentCourseId: id }),
+  setCurrentCourseId: (id) =&gt; set({ currentCourseId: id }),
   userAnswers: {},
-  setMultipleChoiceAnswer: (courseId, questionId, answer) =>
-    set((state) => ({
-      userAnswers: {
-        ...state.userAnswers,
-        [courseId]: {
-          ...state.userAnswers[courseId],
-          multipleChoice: {
-            ...(state.userAnswers[courseId]?.multipleChoice || {}),
-            [questionId]: answer,
+  
+  setMultipleChoiceAnswer: (courseId, questionId, answer) =&gt;
+    set((state) =&gt; {
+      const updatedUserAnswers = ensureCourseExists(state, courseId);
+      return {
+        userAnswers: {
+          ...updatedUserAnswers,
+          [courseId]: {
+            ...updatedUserAnswers[courseId],
+            multipleChoice: {
+              ...updatedUserAnswers[courseId].multipleChoice,
+              [questionId]: answer,
+            },
           },
         },
-      },
-    })),
-  setTrueFalseAnswer: (courseId, questionId, answer) =>
-    set((state) => ({
-      userAnswers: {
-        ...state.userAnswers,
-        [courseId]: {
-          ...state.userAnswers[courseId],
-          trueFalse: {
-            ...(state.userAnswers[courseId]?.trueFalse || {}),
-            [questionId]: answer,
+      };
+    }),
+  
+  setTrueFalseAnswer: (courseId, questionId, answer) =&gt;
+    set((state) =&gt; {
+      const updatedUserAnswers = ensureCourseExists(state, courseId);
+      return {
+        userAnswers: {
+          ...updatedUserAnswers,
+          [courseId]: {
+            ...updatedUserAnswers[courseId],
+            trueFalse: {
+              ...updatedUserAnswers[courseId].trueFalse,
+              [questionId]: answer,
+            },
           },
         },
-      },
-    })),
-  setCodingAnswer: (courseId, code) =>
-    set((state) => ({
-      userAnswers: {
-        ...state.userAnswers,
-        [courseId]: {
-          ...state.userAnswers[courseId],
-          coding: code,
+      };
+    }),
+  
+  setCodingAnswer: (courseId, code) =&gt;
+    set((state) =&gt; {
+      const updatedUserAnswers = ensureCourseExists(state, courseId);
+      return {
+        userAnswers: {
+          ...updatedUserAnswers,
+          [courseId]: {
+            ...updatedUserAnswers[courseId],
+            coding: code,
+          },
         },
-      },
-    })),
-  resetCourseAnswers: (courseId) =>
-    set((state) => ({
+      };
+    }),
+  
+  resetCourseAnswers: (courseId) =&gt;
+    set((state) =&gt; ({
       userAnswers: {
         ...state.userAnswers,
         [courseId]: {
