@@ -1,0 +1,4 @@
+# SPA 路由重定向
+# 将所有非文件的请求重定向到index.html，让React Router处理路由
+
+/*    /index.html    200
